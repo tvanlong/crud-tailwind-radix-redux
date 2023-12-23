@@ -186,22 +186,24 @@ function Products() {
               </tbody>
             </table>
           </div>
-          <Flex className='justify-center mt-5' gap='2'>
-            <Badge
-              className={limit === 5 ? 'cursor-pointer hidden' : 'cursor-pointer'}
-              color='orange'
-              onClick={() => setLimit(limit - 5)}
-            >
-              See less
-            </Badge>
-            <Badge
-              className={limit > (data?.length as number) ? 'cursor-pointer hidden' : 'cursor-pointer'}
-              color='blue'
-              onClick={() => setLimit(limit + 5)}
-            >
-              See more
-            </Badge>
-          </Flex>
+          {!isFetching && (
+            <Flex className='justify-center mt-5' gap='2'>
+              <Badge
+                className={limit === 5 ? 'cursor-pointer hidden' : 'cursor-pointer'}
+                color='orange'
+                onClick={() => setLimit(limit - 5)}
+              >
+                See less
+              </Badge>
+              <Badge
+                className={limit > (data?.length as number) ? 'cursor-pointer hidden' : 'cursor-pointer'}
+                color='blue'
+                onClick={() => setLimit(limit + 5)}
+              >
+                See more
+              </Badge>
+            </Flex>
+          )}
         </div>
       </main>
     </div>
