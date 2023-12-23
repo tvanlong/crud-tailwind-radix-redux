@@ -1,7 +1,8 @@
 # React + TypeScript + Vite
 ## Tailwind CSS + ESLint + Prettier + Radix UI + Redux, RTK, RTK Query
+❗ Lưu ý: Đây chỉ là project nhỏ để mình thử nghiệm các công nghệ mới như Radix UI, Redux, RTK, RTK Query, không phải là project thực tế.
 
-## Cài đặt package cho dự án Vite React TS
+## 📌Cách mình setup cho những project React + TypeScript + Vite (Bao gồm cả các công nghệ khác có trong đây)
 
 ### Cài các depedency
 
