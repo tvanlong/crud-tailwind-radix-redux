@@ -6,16 +6,16 @@ import Categories from 'src/pages/Categories'
 import Cart from 'src/pages/Cart'
 import User from 'src/pages/User'
 import { useSelector } from 'react-redux'
-import { selectIsAuthenticated } from './pages/Login/auth.slice'
+import { RootState } from './store'
 
 function ProtectedRoute() {
-  const isAuthenticated = useSelector(selectIsAuthenticated)
+  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
   // Nếu đã đăng nhập thì cho vào trang products, nếu chưa đăng nhập thì cho vào trang login
   return isAuthenticated ? <Outlet /> : <Navigate to='/' />
 }
 
 function RejectedRoute() {
-  const isAuthenticated = useSelector(selectIsAuthenticated)
+  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated)
   // Nếu chưa đăng nhập thì cho vào trang login, nếu đã đăng nhập thì cho vào trang products
   return !isAuthenticated ? <Outlet /> : <Navigate to='/products' />
 }

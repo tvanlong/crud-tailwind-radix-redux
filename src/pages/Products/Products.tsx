@@ -1,6 +1,6 @@
 import ProductRow from 'src/components/ProductRow'
 import { useAddProductMutation, useGetProductsQuery } from './product.service'
-import { Dialog, Flex, Text, TextField } from '@radix-ui/themes'
+import { Badge, Dialog, Flex, Text, TextField } from '@radix-ui/themes'
 import Skeleton from 'src/components/Skeleton'
 import { ProductNoRating } from 'src/types/product.type'
 import { useState } from 'react'
@@ -16,7 +16,10 @@ const initialFormData: ProductNoRating = {
 }
 
 function Products() {
-  const { data, isFetching } = useGetProductsQuery()
+  const [limit, setLimit] = useState(5)
+  const { data, isFetching } = useGetProductsQuery(limit)
+  console.log(data)
+
   const [formData, setFormData] = useState<ProductNoRating>(initialFormData)
   const [addProduct] = useAddProductMutation()
   const dispatch = useDispatch()
@@ -38,8 +41,6 @@ function Products() {
   const startEdit = (id: number) => {
     dispatch(startEditProduct(id))
   }
-
-  console.log(isFetching)
 
   return (
     <div className='w-full overflow-x-hidden border-t flex flex-col'>
@@ -185,6 +186,22 @@ function Products() {
               </tbody>
             </table>
           </div>
+          <Flex className='justify-center mt-5' gap='2'>
+            <Badge
+              className={limit === 5 ? 'cursor-pointer hidden' : 'cursor-pointer'}
+              color='orange'
+              onClick={() => setLimit(limit - 5)}
+            >
+              See less
+            </Badge>
+            <Badge
+              className={limit > (data?.length as number) ? 'cursor-pointer hidden' : 'cursor-pointer'}
+              color='blue'
+              onClick={() => setLimit(limit + 5)}
+            >
+              See more
+            </Badge>
+          </Flex>
         </div>
       </main>
     </div>

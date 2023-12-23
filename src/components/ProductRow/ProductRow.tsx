@@ -1,7 +1,11 @@
 import { AlertDialog, Dialog, Flex, Text, TextField } from '@radix-ui/themes'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useGetProductQuery, useUpdateProductMutation } from 'src/pages/Products/product.service'
+import {
+  useDeleteProductMutation,
+  useGetProductQuery,
+  useUpdateProductMutation
+} from 'src/pages/Products/product.service'
 import { RootState } from 'src/store'
 import { ProductNoRating } from 'src/types/product.type'
 
@@ -34,6 +38,7 @@ function ProductRow(props: Props) {
     skip: !productId // Không có productId thì skip
   })
   const [updateProduct] = useUpdateProductMutation()
+  const [deleteProduct] = useDeleteProductMutation()
 
   useEffect(() => {
     if (data) {
@@ -58,6 +63,13 @@ function ProductRow(props: Props) {
       console.log(result)
     }
     setFormData(initialFormData)
+  }
+
+  const handleDelete = async () => {
+    if (productId) {
+      const result = await deleteProduct(productId).unwrap()
+      console.log(result)
+    }
   }
 
   return (
@@ -185,6 +197,7 @@ function ProductRow(props: Props) {
           <AlertDialog.Trigger>
             <button
               type='button'
+              onClick={() => startEdit(product.id)}
               className='flex items-center py-2 px-5 me-2 mb-2 text-xs font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 '
             >
               <svg
@@ -204,7 +217,7 @@ function ProductRow(props: Props) {
           <AlertDialog.Content style={{ maxWidth: 450 }}>
             <AlertDialog.Title>Delete</AlertDialog.Title>
             <AlertDialog.Description size='2'>
-              Are you sure? This application will no longer be accessible and any existing sessions will be expired.
+              Are you sure? You can't undo this action afterwards.
             </AlertDialog.Description>
 
             <Flex gap='3' mt='4' justify='end'>
@@ -218,10 +231,11 @@ function ProductRow(props: Props) {
               </AlertDialog.Cancel>
               <AlertDialog.Action>
                 <button
-                  type='button'
+                  type='submit'
+                  onClick={handleDelete}
                   className='text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 text-center me-2 mb-2'
                 >
-                  Save
+                  Delete
                 </button>
               </AlertDialog.Action>
             </Flex>
